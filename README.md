@@ -14,14 +14,15 @@
 
 ### Details
 
+- We assume that a folder containing the dataset must be structured like `{train-test-split}/{images-or-masks}/{filename.ext}`, for example, `train/images/10.jpg`.
+
 - `subset` folder contains the logic to obtain a coreset of images from an overall dataset. Choose any image dataset to subset your overall dataset and
 save the subset. Masks can also be saved if a binary segmentation dataset is used.
 
 - `segmentation` folder contains the training methods to train the models for a binary segmentation task on the above mentioned datasets.
   - `training` folder contains the files required to perform training for binary segmentation, run `train.sh` with the required parameters to perform the training.
-  - `inference.py` contains the code to perform inference using a trained model.
-
-Evaluation can be performed using the code provided in the [DeepSegmentor](https://github.com/yhlleo/DeepSegmentor/tree/master/eval) repository.
+  - `inference.py` contains the code to perform inference using a trained model and inference can be performed using the script `inference.sh`.
+  - Evaluation can be performed using the code provided in the [DeepSegmentor](https://github.com/yhlleo/DeepSegmentor/tree/master/eval) repository.
 
 ### Workarounds
 -  If you're getting the error **ImportError: cannot import name 'MultiHeadAttention' from 'tensorflow.keras.layers'**, comment out the corresponding lines of code from the `keras_unet_collection` source library.
