@@ -10,4 +10,12 @@
 # archives
 **/*.zip
 
+# cache
 **/__pycache__/
+
+# models
+**/models
+**/*.hd5
+**/*.hdf5
+**/*.pt
+**/*.bin
