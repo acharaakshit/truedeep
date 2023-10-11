@@ -267,24 +267,24 @@ def read_mapping(true_mapping_path, json_path, true_path, directory, dims_to_tak
     t_images, v_images = get_img_dist(mapping, true_mapping_path, directory, dims_to_take)
 
     for image in t_images:
-        img_path = directory + 'images/' + image
-        msk_path = directory + 'masks/' + image
-
+        img_path = os.path.join(directory, 'images/', image)
+        msk_path = os.path.join(directory, 'masks/', image)
+        print(img_path, msk_path)
         img = cv2.imread(img_path, 1)
         msk = cv2.imread(msk_path.split('.')[0] + '.png', 0)
 
-        cv2.imwrite(true_path + 'train/images/' + image, img)
-        cv2.imwrite(true_path + 'train/masks/' + image.split('.')[0] + '.png', msk)
+        cv2.imwrite(os.path.join(true_path, 'train/images/', image), img)
+        cv2.imwrite(os.path.join(true_path, 'train/masks/', image.split('.')[0] + '.png'), msk)
 
     for image in v_images:
-        img_path = directory + 'images/' + image
-        msk_path = directory + 'masks/' + image
+        img_path = os.path.join(directory, 'images/', image)
+        msk_path = os.path.join(directory, 'masks/', image)
 
         img = cv2.imread(img_path, 1)
         msk = cv2.imread(msk_path.split('.')[0] + '.png', 0)
 
-        cv2.imwrite(true_path + 'val/images/' + image, img)
-        cv2.imwrite(true_path + 'val/masks/' + image.split('.')[0] + '.png', msk)
+        cv2.imwrite(os.path.join(true_path, 'val/images/', image), img)
+        cv2.imwrite(os.path.join(true_path, 'val/masks/', image.split('.')[0] + '.png'), msk)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -298,11 +298,10 @@ def main():
 
     backbone = args.backbone
     model = get_model(backbone, n_classes=2)
-    path = "B0"
     directory = args.directory
     # json file to store the image-coordinate mapping
     json_path = args.json_path
-    os.makedirs("/".join(json_path.split("/")[0]), exist_ok=True)
+    os.makedirs("/".join(json_path.split("/")[:-1]), exist_ok=True)
     # trueset representation of images from first dimension of PCA
     true_mapping_path = args.true_mapping_path
     os.makedirs("/".join(true_mapping_path.split("/")[:-1]), exist_ok=True)
