@@ -11,13 +11,17 @@ def getListOfFiles(dirName):
         files.append(filename)
     return files
 
-def get_images(image_id, test_directory):
+def get_images(image_id, test_directory, size):
     train_images = []
 
     for directory_path in glob.glob(test_directory + 'images'):
         for img_path in set(sorted(glob.glob(os.path.join(directory_path, "*.jpg")))):
             if img_path.split("/")[-1] == image_id:
-                img = cv2.resize(cv2.imread(img_path, 1), dsize=(32,32), interpolation=cv2.INTER_LINEAR)
+                img = cv2.imread(img_path, 1)
+                if size is None:
+                    # keep same size
+                    size = (img.shape[1], img.shape[0])
+                img = cv2.resize(img, dsize=size, interpolation=cv2.INTER_LINEAR)
                 train_images.append(img)
     train_images = np.array(train_images)
     return train_images

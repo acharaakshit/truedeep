@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 import glob
 from tensorflow import keras
@@ -52,14 +53,20 @@ def main():
     parser.add_argument('--n_epochs', default=51)
     parser.add_argument('--train_dirpath', default='data/train/')
     parser.add_argument('--val_dirpath', default='data/val/')
+    parser.add_argument('--image_size', nargs='+', type=int, default=None, help="The input should be in the format: height<space>width")
 
     args = parser.parse_args()
 
     backbone = args.backbone
+    batch_size = args.batch_size
     n_epochs = args.n_epochs
     train_dirpath = args.train_dirpath
     val_dirpath = args.val_dirpath
-    batch_size = args.batch_size
+    image_size = args.image_size
+    if image_size is not None:
+        # size compatible for cv2 resize
+        image_size = tuple([image_size[1], image_size[0]])
+    
 
     # get images for training
     train_image_files, val_image_files = get_train_val(train_dirpath=train_dirpath,
@@ -77,6 +84,7 @@ def main():
                         mask_dir=os.path.join(train_dirpath,'masks'),
                         mask_list=train_image_files,
                         batch_size=batch_size,
+                        size=image_size,
                         rand_aug=True)
     
     val_image_datagen = data_generator.imageLoader(img_dir=os.path.join(val_dirpath,'images'),
@@ -84,6 +92,7 @@ def main():
                         mask_dir=os.path.join(val_dirpath,'masks'),
                         mask_list=val_image_files,
                         batch_size=batch_size//2,
+                        size=image_size,
                         rand_aug=False,
                         val=True)
     

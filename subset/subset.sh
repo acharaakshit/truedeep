@@ -4,3 +4,4 @@ python -u data_subsetting.py \
     --json_path json/image_point_map.json \
     --true_mapping_path plots/trueset.png \
     --true_path target \
+    --image_size 32 32

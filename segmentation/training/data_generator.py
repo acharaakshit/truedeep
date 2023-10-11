@@ -25,22 +25,30 @@ def get_image(dirpath, image_filename, image_list, mask=False):
     
     return img_path
 
-def read_input_image(image_path):
-    return cv2.resize(cv2.imread(image_path, 1), (32,32), interpolation=cv2.INTER_LINEAR)
+def read_input_image(image_path, size):
+    img = cv2.imread(image_path, 1)
+    if size is None:
+        # keep same size
+        size = (img.shape[1], img.shape[0])
+    return cv2.resize(img, dsize=size, interpolation=cv2.INTER_LINEAR)
 
-def read_mask(mask_path):
-    return cv2.resize(cv2.imread(mask_path, 0), (32,32), interpolation=cv2.INTER_LINEAR)
+def read_mask(mask_path, size):
+    msk = cv2.imread(mask_path, 0)
+    if size is None:
+        # keep same size
+        size = (msk.shape[1], msk.shape[0])
+    return cv2.resize(msk, size, interpolation=cv2.INTER_LINEAR)
 
-def get_processed(dirpath, image_list, mask=False, n_classes=2):
+def get_processed(dirpath, image_list, size, mask=False, n_classes=2):
     image_array = []
     for img_filename in image_list:
         if not mask:
             img_path = get_image(dirpath, img_filename, image_list)
             # use rgb
-            img = read_input_image(img_path)
+            img = read_input_image(img_path, size=size)
         else:
             img_path = get_image(dirpath, img_filename, image_list, mask=True)
-            img = read_mask(img_path)
+            img = read_mask(img_path, size=size)
             img = cv2.threshold(img, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1] // 255
 
         image_array.append(img)
@@ -53,7 +61,7 @@ def get_processed(dirpath, image_list, mask=False, n_classes=2):
     
     return (image_array)
 
-def imageLoader(img_dir, img_list, mask_dir, mask_list, batch_size, rand_aug=False, val=False, n_classes=2):
+def imageLoader(img_dir, img_list, mask_dir, mask_list, batch_size, size, rand_aug=False, val=False, n_classes=2):
     L = len(img_list)
 
     while True:
@@ -64,14 +72,14 @@ def imageLoader(img_dir, img_list, mask_dir, mask_list, batch_size, rand_aug=Fal
             limit = min(batch_end, L)
 
             if not rand_aug:
-                X = get_processed(img_dir, img_list[batch_start:limit])
-                Y = get_processed(mask_dir, mask_list[batch_start:limit], mask=True)
+                X = get_processed(img_dir, img_list[batch_start:limit], size=size)
+                Y = get_processed(mask_dir, mask_list[batch_start:limit], size=size, mask=True)
             else:
                 images = []
                 masks = []
                 for item in img_list[batch_start:limit]:
-                    image = read_input_image(get_image(img_dir, item, img_list))
-                    mask = read_mask(get_image(mask_dir, item, mask_list, mask=True))
+                    image = read_input_image(get_image(img_dir, item, img_list), size=size)
+                    mask = read_mask(get_image(mask_dir, item, mask_list, mask=True), size=size)
                     if not val:
                         aug_out = augmentations.randAugmentation(image, mask)
                         images.append(aug_out['image'])

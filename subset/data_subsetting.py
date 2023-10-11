@@ -40,12 +40,12 @@ def scale_to_01_range(x):
     starts_from_zero = x - np.min(x)
     return starts_from_zero / value_range
 
-def save_outputs(model, directory, backbone):
+def save_outputs(model, directory, backbone, size):
     selected_set = getListOfFiles(os.fsencode(directory + 'images'))
     random.shuffle(selected_set)
     all_outputs = dict()
     for image in selected_set:
-        X_test = get_images(image, directory)
+        X_test = get_images(image, directory, size)
         encoder = model.get_layer(backbone + "_backbone")
         output = encoder.predict(X_test)
         all_outputs[image] = np.concatenate([x.ravel() for x in output])
@@ -269,7 +269,6 @@ def read_mapping(true_mapping_path, json_path, true_path, directory, dims_to_tak
     for image in t_images:
         img_path = os.path.join(directory, 'images/', image)
         msk_path = os.path.join(directory, 'masks/', image)
-        print(img_path, msk_path)
         img = cv2.imread(img_path, 1)
         msk = cv2.imread(msk_path.split('.')[0] + '.png', 0)
 
@@ -293,6 +292,11 @@ def main():
     parser.add_argument('--json_path', default='json/image_point_map.json')
     parser.add_argument('--true_mapping_path', default='plots/trueset.png')
     parser.add_argument('--true_path', default='target/')
+    parser.add_argument('--image_size', nargs='+', type=int, default=None, 
+                    help="""The image size to be used for getting the 
+                    feature representation, target images will be saved 
+                    in the initial size. The input should be in the 
+                    format: height<space>width""")
 
     args = parser.parse_args()
 
@@ -316,9 +320,13 @@ def main():
     os.makedirs(os.path.join(true_path, 'val/images'), exist_ok=True)
     os.makedirs(os.path.join(true_path, 'val/masks'), exist_ok=True)
 
+    image_size = args.image_size
+    if image_size is not None:
+        # size compatible for cv2 resize
+        image_size = tuple([image_size[1], image_size[0]])
 
     # compute all the outputs
-    all_outputs = save_outputs(model, directory, backbone)
+    all_outputs = save_outputs(model, directory, backbone, image_size)
 
     # number of principal components to be extracted
     n_components = 3
