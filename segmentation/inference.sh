@@ -1,0 +1,1 @@
+python inference.py --image_path training/data/train/images/11116-4.jpg
