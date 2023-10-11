@@ -1,0 +1,12 @@
+# use tensorflow-gpu for running on gpu
+tensorflow==2.3.1
+# tensorflow-gpu==2.3.1
+keras_unet_collection==0.1.13
+segmentation-models==1.0.1
+numpy==1.18.5
+matplotlib==3.4.3
+albumentations==1.2.1
+pillow==10.0.1
+opencv-python==4.8.1.78
+pandas==1.4.4
+protobuf==3.20.*

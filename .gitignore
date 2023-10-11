@@ -1,0 +1,13 @@
+# image files
+**/*.png
+**/*.jpg
+**/*.mat
+**/*.bmp
+
+# data files
+**/*.json
+
+# archives
+**/*.zip
+
+**/__pycache__/
