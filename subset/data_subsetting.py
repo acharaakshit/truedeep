@@ -42,7 +42,7 @@ def scale_to_01_range(x):
 
 def save_outputs(model, directory, backbone, size):
     selected_set = getListOfFiles(os.fsencode(directory + 'images'))
-    random.shuffle(selected_set)
+    random.Random(51).shuffle(selected_set)
     all_outputs = dict()
     for image in selected_set:
         X_test = get_images(image, directory, size)
@@ -228,7 +228,7 @@ def get_img_dist(point_map, true_mapping_path, directory, dims_to_take):
                 jump = round(len(val_clean_v) / train_take)
                 print(f"The value of train jump is {jump}")
                 if jump == 1:
-                    random.shuffle(val_clean_v)
+                    random.Random(51).shuffle(val_clean_v)
                     if len(val_clean_v) == 2:
                         train_take = 1
                     train_set = val_clean_v[:train_take]
