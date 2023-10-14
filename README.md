@@ -1,12 +1,14 @@
 ## TrueDeep: A Systematic of Crack Detection with Less Data
 ### Installation
-- Python Version: 3.8.10
+- Python >= 3.6 Recommended
 - Install the requirements mentioned in the `requirements.txt`.
 
 ### Datasets
 
 - **DeepCrack**
   - This is a crack segmentation dataset that can be downloaded from the [DeepCrack](https://github.com/yhlleo/DeepCrack/blob/master/dataset/DeepCrack.zip) repository.
+- **kaggle-crack-segmentation**
+  - This is a crack segmetation dataset containing images from diverse backgrounds and is available [here](https://www.kaggle.com/datasets/lakshaymiddha/crack-segmentation-dataset).
 - **FIVES**
   - This is a vessel segmentation dataset that can be downloaded from [here](https://figshare.com/ndownloader/files/34969398).
 - **BCCD**
@@ -21,8 +23,13 @@ save the subset. Masks can also be saved if a binary segmentation dataset is use
 
 - `segmentation` folder contains the training methods to train the models for a binary segmentation task on the above mentioned datasets.
   - `training` folder contains the files required to perform training for binary segmentation, run `train.sh` with the required parameters to perform the training.
-  - `inference.py` contains the code to perform inference using a trained model and inference can be performed using the script `inference.sh`.
-  - Evaluation can be performed using the code provided in the [DeepSegmentor](https://github.com/yhlleo/DeepSegmentor/tree/master/eval) repository.
+  - `augmentation` folder contains the implementation of augmentation techniques performed on crack masks, run `augment_data.sh` to perform the augmentation on the input images.
+  - `evaluation` folder contains the implementation of inference and computation of metrics.
+    - `inference.py` contains the code to perform inference using a trained model and inference can be performed using the script `inference.sh`.
+  - F-score, Precision and Recall can be computed by running `evaluate.sh`. To compute more metrics like global accuracy and class average accuracy, please refer to the [DeepSegmentor](https://github.com/yhlleo/DeepSegmentor/tree/master/eval) repository.
+
+### Model Checkpoints
+  - The model checkpoints are for truedeep are available [here](https://drive.google.com/drive/folders/18Ytylwl37ItO8PQKhccitUeJM8V23m1u?usp=drive_link).
 
 ### Workarounds
 -  If you're getting the error **ImportError: cannot import name 'MultiHeadAttention' from 'tensorflow.keras.layers'**, comment out the corresponding lines of code from the `keras_unet_collection` source library.
