@@ -1,0 +1,1 @@
+python evaluate.py --prediction_path predictions/ --gt_path ../../subset/data/test/masks/
