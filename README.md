@@ -1,4 +1,4 @@
-## TrueDeep: A Systematic of Crack Detection with Less Data
+## [TrueDeep: A Systematic of Crack Detection with Less Data](https://arxiv.org/abs/2305.19088)
 ### Installation
 - Python >= 3.6 Recommended
 - Install the requirements mentioned in the `requirements.txt`.
