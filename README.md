@@ -44,8 +44,10 @@ If you find the code useful for your research, please cite our paper:
 ```
 @article{pandey2023truedeep,
   title={TrueDeep: A systematic approach of crack detection with less data},
-  author={Pandey, Ram Krishna and Achara, Akshit},
-  journal={arXiv preprint arXiv:2305.19088},
-  year={2023}
+  author={Pandey, Ramkrishna and Achara, Akshit},
+  journal={Expert Systems with Applications},
+  pages={122785},
+  year={2023},
+  publisher={Elsevier}
 }
 ```
