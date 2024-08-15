@@ -119,9 +119,7 @@ def get_img_dist(point_map, true_mapping_path, directory, dims_to_take):
         dimension_point_map = dict()
 
         for k, v in point_map.items():
-            dist = 0
-            dist += (v[dimension] - average[dimension])*(v[dimension] - average[dimension])
-            dist = math.sqrt(dist)
+            dist = v[dimension] - average[dimension]
             distances.append(dist)
             v_new = [v[dimension], dist]
             v_new = tuple(v_new)
