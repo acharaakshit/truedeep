@@ -49,3 +49,16 @@ If you find the code useful for your research, please cite our paper:
   year={2023}
 }
 ```
+
+If you are using the stochastic width augmentations from the code, please cite our paper:
+
+```
+@inproceedings{pandey2023coredeep,
+  title={CoreDeep: Improving crack detection algorithms using width stochasticity},
+  author={Pandey, Ramkrishna and Achara, Akshit},
+  booktitle={International Conference on Computer Vision and Image Processing},
+  pages={62--73},
+  year={2023},
+  organization={Springer}
+}
+```
